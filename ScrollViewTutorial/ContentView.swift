@@ -13,27 +13,26 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            Text("Our Auto Scrolling App")
-                .font(.title)
-            Text("Some Item")
-                .padding()
-            Text("Another Item")
-                .padding()
-            Text("A third Item")
-                .padding()
-            Spacer()
-            Button(action: {
+            ScrollView {
+                ForEach(contentVM.itemArray) { item in
+                    Text(item.text)
+                        .padding()
+                }
+                Spacer()
+            }
+            ZStack(alignment: .bottom) {
+                Button(action: {
                     didTapAddItemButton()
-            }, label: {
-                Text("Add item to the list")
-                    .foregroundColor(.primary)
-                    .padding()
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color.purple, lineWidth: 5)
-                    )
-            })
-            
+                }, label: {
+                    Text("Add item to the list")
+                        .foregroundColor(.primary)
+                        .padding()
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20)
+                                .stroke(Color.purple, lineWidth: 5)
+                        )
+                })
+            }
         }
         
     }

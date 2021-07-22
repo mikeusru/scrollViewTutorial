@@ -13,6 +13,7 @@ final class ContentViewModel: ObservableObject {
     
     func addItemToArray() {
         let newItem = Item("Some new item")
+        itemArray.append(newItem)
     }
     
 }
