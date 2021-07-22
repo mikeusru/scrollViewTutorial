@@ -55,9 +55,7 @@ struct ContentView: View {
         withAnimation {
             scrollProxy?.scrollTo(contentVM.itemArray.last?.id, anchor: .bottom)
         }
-        
     }
-    
 }
 
 struct ContentView_Previews: PreviewProvider {
