@@ -10,15 +10,22 @@ import SwiftUI
 struct ContentView: View {
     
     @ObservedObject var contentVM = ContentViewModel()
+    @State private var scrollProxy: ScrollViewProxy? = nil
     
     var body: some View {
         VStack {
             ScrollView {
-                ForEach(contentVM.itemArray) { item in
-                    Text(item.text)
-                        .padding()
+                ScrollViewReader { proxy in
+                    ForEach(contentVM.itemArray, id: \.id) { item in
+                        Text(item.text)
+                            .padding()
+                            .id(item.id)
+                    }
+                    .onAppear {
+                        scrollProxy = proxy
+                    }
+                    Spacer()
                 }
-                Spacer()
             }
             ZStack(alignment: .bottom) {
                 Button(action: {
@@ -34,15 +41,20 @@ struct ContentView: View {
                 })
             }
         }
+        .onChange(of: contentVM.itemArray, perform: { _ in
+            scrollToBottom()
+        })
         
     }
     
     func didTapAddItemButton() {
         contentVM.addItemToArray()
-        scrollToTop()
     }
     
-    func scrollToTop() {
+    func scrollToBottom() {
+        withAnimation {
+            scrollProxy?.scrollTo(contentVM.itemArray.last?.id, anchor: .bottom)
+        }
         
     }
     
